@@ -1,0 +1,20 @@
+
+body{
+    /* background-color: black; */
+    background-image: url(/src/assets/pexels-tima-miroshnichenko-7991179.jpg);
+    background-size: cover;
+    color: white;
+}
+
+movie-app, .row{
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+
+
+
+
+
+
+
+
