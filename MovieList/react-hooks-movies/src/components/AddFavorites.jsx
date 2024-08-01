@@ -1,18 +1,17 @@
 import React from 'react';
 
-const AddRemoveButtons = () => {
-  return (
+const AddRemoveButtons = ({ movie, addFavoriteMovie, removeFavoriteMovie}) => {
+ 
+    return (
     <div>
-      <h1>AddFavorite</h1>
+      <button onClick={() => addFavoriteMovie(movie)}>Add To Fav</button>
+      <button onClick={() => removeFavoriteMovie(movie)}>Remove From fav</button>
     </div>
   );
 };
 
 
 export default AddRemoveButtons;
-
-
-
 
 
 

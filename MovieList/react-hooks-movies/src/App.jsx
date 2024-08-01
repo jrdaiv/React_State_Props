@@ -1,27 +1,34 @@
 import React, { useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './components/App.css'
-// import './components/MovieList'
-// import './components/MovieListHeader'
 import MovieList from './components/MovieList'
 import MovieListHeader from './components/MovieListHeader'
 import SearchBar from './components/SearchBar'
 import AddRemoveButtons from './components/AddFavorites'
+import FavoriteMovies from './components/FavoriteMovies'
+import MovieDetails from './components/MovieDetails'
+// import MovieDetails from './components/MovieDetails'
 
 const App = () => {
   const [movies, setMovies] = useState([])
   const [searchValue, setSearchValue] = useState('')
+  const [favorites, setFavorites] = useState([])
+  const [showFavorites, setShowFavorites] = useState(null)
 
   const getMovieRequest = async (searchValue) => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=f4d43e60`;
 
-    const response = await fetch(url);
-    const responseJson = await response.json();
-    console.log(responseJson);
-
-    if (responseJson.Search) {
-      setMovies(responseJson.Search);
+    try{
+      const response = await fetch(url);
+      const responseJson = await response.json();
+      console.log(responseJson);
+      if (responseJson.Search) {
+        setMovies(responseJson.Search);
+      }
+    }catch(error){
+      console.error(error);
     }
+
   }
 
 
@@ -30,21 +37,47 @@ const App = () => {
   }, [searchValue]);
 
 
+
+  const addFavoriteMovie = (movie) => {
+    setFavorites((prevFavorites) => [...prevFavorites, movie]);
+  };
+
+  const removeFavoriteMovie = (movie) => {
+    setFavorites((prevFavorites) =>
+      prevFavorites.filter((fav) => fav.imdbID !== movie.imdbID)
+    );
+  };
+
+
   return (
-    <>
-  <div>
     <div className="container-fluid Movie-App">
-      <div className="row d-flex align-items-center mt-3 mb-3">
-        {/* <MovieListHeader></MovieListHeader> */}
-        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue}/>
-      </div>_
-      <div className="row">
-        <MovieList movies={movies} addRemoveButton={AddRemoveButtons} ></MovieList>
-      </div>
+      {showFavorites ? (
+        <MovieDetails movie={showFavorites} setShowFavorites={setShowFavorites} />
+      ) : (
+        <>
+          <div className="row d-flex align-items-center mt-3 mb-3">
+            <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
+          </div>
+          <div className="row">
+            <MovieList
+              movies={movies}
+              addRemoveButton={(movie) => (
+                <AddRemoveButtons
+                  movie={movie}
+                  addFavoriteMovie={addFavoriteMovie}
+                  removeFavoriteMovie={removeFavoriteMovie}
+                />
+              )}
+              setShowFavorites={setShowFavorites}
+            />
+          </div>
+          <div className="row">
+            <FavoriteMovies favorites={favorites} />
+          </div>
+        </>
+      )}
     </div>
-  </div>
-    </>
-  )
-}
+  );
+};
 
 export default App

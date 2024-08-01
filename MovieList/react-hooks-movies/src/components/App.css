@@ -14,14 +14,14 @@ movie-app, .row{
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: black;
-    /* flex-direction: row; */
-    flex-wrap: nowrap;
+    color: transparent;
+    flex-wrap: unset;
 }
 
 .image-container{
     position: relative;
     transition: transform 0.3s;
+    max-height: auto;
 }
 
 .image-container:hover{
@@ -32,15 +32,19 @@ movie-app, .row{
 .overlay{
     position: absolute;
     background: 0,0,0,0.8;
-    width: 100%;
+    /* width: 100%; */
     transition: 0.5s ease;
     opacity: 0;
     bottom: 0;
     font-size: 20px;
     padding: 20px;
     text-align: center;
+    
 }
 
 .image-container:hover .overlay{
     opacity: 1;
 }
+/* .row{
+    color: transparent;
+} */

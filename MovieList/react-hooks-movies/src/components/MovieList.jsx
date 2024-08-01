@@ -1,34 +1,37 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
-const MovieList = (props) => {
-
-    const addRemoveButton = props.addRemoveButton
+const MovieList = ({movies, addRemoveButton, setShowFavorites}) => {
 
     return (
         <>
-            {props.movies.map((movie, index) => (
-                <div className='image-container d-flex justify-content-start m-3' key={index}>
+            {movies.map((movie, index) => (
+                <div className='image-container d-flex justify-content-start m-3' key={index} >
                     <ul>
                         <li>
-                        <img src={movie.Poster} alt='movie' />
+                        <img src={movie.Poster} onClick={() => setShowFavorites(movie)} alt={movie.Title} />
                         <div className="overlay d-flex align-items-center justify-content-center">
-                            <AddRemoveButtons/>
+                        <div>
+                        {addRemoveButton(movie)}
+                        </div>
                         </div>
                         </li>
                         <li>
-                            <button>Add Fav</button>
-                            <button>Remove Fav</button>
-                            {/* {movie.Title} ({movie.Year})
-                            <button onClick={() => toggleDetails(index)}>
-                                {visibleDetails[index] ? 'Hide Details' : 'Show Details'}
-                            </button>  */}
                         </li>
                     </ul>
                 </div>
+                
             ))}
+            
         </>
     );
 }
+
+MovieList.propTypes = {
+    movies: PropTypes.array.isRequired,
+    addRemoveButton: PropTypes.func.isRequired 
+}
+
 
 export default MovieList;
 
